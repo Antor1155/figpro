@@ -2,29 +2,19 @@ import { BaseUserMeta, User } from "@liveblocks/client";
 import { Gradient, Pattern } from "fabric/fabric-impl";
 
 export enum CursorMode {
-  Hidden,
-  Chat,
-  ReactionSelector,
-  Reaction,
+  Hidden="Hidden",
+  Chat="Chat",
+  ReactionSelector="ReactionSelector",
+  Reaction="Reaction",
 }
 
+
+
 export type CursorState =
-  | {
-      mode: CursorMode.Hidden;
-    }
-  | {
-      mode: CursorMode.Chat;
-      message: string;
-      previousMessage: string | null;
-    }
-  | {
-      mode: CursorMode.ReactionSelector;
-    }
-  | {
-      mode: CursorMode.Reaction;
-      reaction: string;
-      isPressed: boolean;
-    };
+  | { mode: CursorMode.Hidden } 
+  | { mode: CursorMode.Chat; message: string; previousMessage: string | null }
+  | { mode: CursorMode.ReactionSelector }
+  | { mode: CursorMode.Reaction; reaction: string; isPressed: boolean };
 
 export type Reaction = {
   value: string;
