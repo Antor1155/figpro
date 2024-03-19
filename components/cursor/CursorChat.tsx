@@ -29,7 +29,7 @@ export default function CursorChat({ cursor, cursorState, setCursorState, update
   }
 
   return (
-    <div className='absolute top-0 left-0' style={{ transform: `translate(${cursor.x}px, ${cursor.y}px)` }}>
+    <div className='absolute top-0 left-0' style={{ transform: `translate(${cursor.x}px, ${cursor.y}px)` }} onKeyUp={e=>e.stopPropagation()}>
       {cursorState.mode === CursorMode.Chat &&
         <>
           <CursorSVG color="#000" />

@@ -134,7 +134,7 @@ export default function Live() {
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
 
-            className="h-screen w-full flex justify-center items-center border-2 border-green-200"
+            className=" w-full flex justify-center items-center border-2 border-green-200"
         >
             <h1 className="text-2xl text-white"> FigPro -- a Figma Alternative &#128526; !!</h1>
 
