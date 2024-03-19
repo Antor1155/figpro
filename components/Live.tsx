@@ -27,8 +27,6 @@ export default function Live() {
         })
     }, 5000)
 
-    console.log("reactions are :", reaction)
-
     useInterval(() => {
         if (cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
             setReaction((reactions) => reactions.concat([
