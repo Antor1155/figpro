@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import CursorChat from "./cursor/CursorChat";
 import { CursorMode, CursorState, Reaction } from "@/types/type";
 import ReactionSelector from "./reaction/ReactionButton";
+import FlyingReaction from "./reaction/FlyingReaction";
+import useInterval from "@/hooks/useInterval";
 
 export default function Live() {
     const others = useOthers()
@@ -14,6 +16,18 @@ export default function Live() {
     })
 
     const [reaction, setReaction] = useState<Reaction[]>([])
+
+    useInterval(() => {
+        if (cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
+            setReaction((reactions) => reactions.concat([
+                {
+                    point: { x: cursor.x, y: cursor.y },
+                    value: cursorState.reaction,
+                    timestamp: Date.now()
+                }
+            ]))
+        }
+    }, 100)
 
     const handlePointerMove = useCallback((event: React.PointerEvent) => {
         event.preventDefault()
@@ -37,12 +51,12 @@ export default function Live() {
 
         updateMyPresence({ cursor: { x, y } })
 
-        setCursorState((state: CursorState)=>cursorState.mode === CursorMode.Reaction ? {...state, isPressed: true} : state)
+        setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? { ...state, isPressed: true } : state)
     }, [cursorState.mode, setCursorState])
 
-    const handlePointerUp = useCallback((event:React.PointerEvent)=>{
-        setCursorState((state: CursorState)=>cursorState.mode === CursorMode.Reaction ? {...state, isPressed: true} : state)
-    },[cursorState.mode, setCursorState])
+    const handlePointerUp = useCallback((event: React.PointerEvent) => {
+        setCursorState((state: CursorState) => cursorState.mode === CursorMode.Reaction ? { ...state, isPressed: false } : state)
+    }, [cursorState.mode, setCursorState])
 
     useEffect(() => {
         const onKeyUp = (e: KeyboardEvent) => {
@@ -80,8 +94,8 @@ export default function Live() {
 
     }, [])
 
-    const setReactions = useCallback((reaction: string) =>{
-        setCursorState({mode: CursorMode.Reaction, reaction, isPressed:false})
+    const setReactions = useCallback((reaction: string) => {
+        setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false })
     }, [])
 
     return (
@@ -105,7 +119,18 @@ export default function Live() {
 
             {cursorState.mode === CursorMode.ReactionSelector && (
 
-                <ReactionSelector setReaction={setReactions}  />
+                <ReactionSelector setReaction={setReactions} />
+            )}
+
+            {reaction.map((r) => (
+                <FlyingReaction
+                    key={r.timestamp.toString()}
+                    x={r.point.x}
+                    y={r.point.y}
+                    timestamp={r.timestamp}
+                    value={r.value}
+                />)
+
             )}
 
             <LiveCursors others={others} />
