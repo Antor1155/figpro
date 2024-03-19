@@ -7,7 +7,11 @@ import ReactionSelector from "./reaction/ReactionButton";
 import FlyingReaction from "./reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 
-export default function Live() {
+type Props = {
+    canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
+}
+
+export default function Live( {canvasRef} : Props) {
     const others = useOthers()
     const [{ cursor }, updateMyPresence] = useMyPresence() as any;
 
@@ -136,7 +140,7 @@ export default function Live() {
 
             className=" w-full flex justify-center items-center border-2 border-green-200"
         >
-            <h1 className="text-2xl text-white"> FigPro -- a Figma Alternative &#128526; !!</h1>
+            <canvas />
 
             {cursor && (
                 <CursorChat
