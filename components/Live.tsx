@@ -1,8 +1,8 @@
-import { useMyPresence, useOthers } from "@/liveblocks.config";
+import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from "@/liveblocks.config";
 import LiveCursors from "./cursor/LiveCursors";
 import React, { useCallback, useEffect, useState } from "react";
 import CursorChat from "./cursor/CursorChat";
-import { CursorMode, CursorState, Reaction } from "@/types/type";
+import { CursorMode, CursorState, Reaction, ReactionEvent } from "@/types/type";
 import ReactionSelector from "./reaction/ReactionButton";
 import FlyingReaction from "./reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
@@ -17,6 +17,18 @@ export default function Live() {
 
     const [reaction, setReaction] = useState<Reaction[]>([])
 
+    const broadcast = useBroadcastEvent();
+
+    useInterval(() => {
+        setReaction(reac => {
+            return reac.filter(r => {
+                r.timestamp > Date.now() - 4000
+            })
+        })
+    }, 5000)
+
+    console.log("reactions are :", reaction)
+
     useInterval(() => {
         if (cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
             setReaction((reactions) => reactions.concat([
@@ -26,8 +38,28 @@ export default function Live() {
                     timestamp: Date.now()
                 }
             ]))
+
+            // broadcast data by liveblock 
+            broadcast({
+                x: cursor.x,
+                y: cursor.y,
+                value: cursorState.reaction
+            })
         }
     }, 100)
+
+    // listen broadcasted data by liveblock 
+    useEventListener((eventData) => {
+        const event = eventData.event as ReactionEvent
+
+        setReaction((reactions) => reactions.concat([
+            {
+                point: { x: event.x, y: event.y },
+                value: event.value,
+                timestamp: Date.now()
+            }
+        ]))
+    })
 
     const handlePointerMove = useCallback((event: React.PointerEvent) => {
         event.preventDefault()
