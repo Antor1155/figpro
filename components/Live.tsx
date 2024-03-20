@@ -11,7 +11,7 @@ type Props = {
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
 }
 
-export default function Live( {canvasRef} : Props) {
+export default function Live({ canvasRef }: Props) {
     const others = useOthers()
     const [{ cursor }, updateMyPresence] = useMyPresence() as any;
 
@@ -133,14 +133,16 @@ export default function Live( {canvasRef} : Props) {
     }, [])
 
     return (
-        <div onPointerMove={handlePointerMove}
+        <div
+            id="canvas"
+            onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
 
             className=" w-full flex justify-center items-center border-2 border-green-200"
         >
-            <canvas />
+            <canvas ref={canvasRef} />
 
             {cursor && (
                 <CursorChat

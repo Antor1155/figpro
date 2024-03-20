@@ -7,8 +7,8 @@ import { Room } from "./Room";
 import Navbar from "@/components/Navbar";
 import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
-import { useEffect, useRef } from "react";
-import { CustomFabricObject } from "@/types/type";
+import { useEffect, useRef, useState } from "react";
+import { ActiveElement, CustomFabricObject } from "@/types/type";
 import { handleCanvasMouseDown, handleResize, initializeFabric } from "@/lib/canvas";
 
 export default function Page() {
@@ -16,8 +16,20 @@ export default function Page() {
   const fabricRef = useRef<fabric.Canvas | null >(null)
   const isDrawing = useRef(false)
 
-  const shapeRef = useRef<fabric.object | null>(null)
-  const selectedShapeRef = useRef<string | null>(null)
+  const shapeRef = useRef<fabric.Object | null>(null)
+  const selectedShapeRef = useRef<string | null>("rectangle")
+
+  const [activeElement, setActiveElement] = useState<ActiveElement>({
+    name:"",
+    value:"",
+    icon:"",
+  })
+
+  const handleActiveElement = (elem:ActiveElement) => {
+    setActiveElement(elem)
+
+    selectedShapeRef.current = elem?.value as string
+  }
 
   useEffect(()=>{
     const canvas = initializeFabric({canvasRef, fabricRef})
@@ -40,7 +52,10 @@ export default function Page() {
 
   return (
     <main className="h-screen border-red-200 flex flex-col overflow-hidden">
-      <Navbar />
+      <Navbar 
+        activeElement={activeElement}
+        handleActiveElement={handleActiveElement}
+      />
 
       <section className="flex-grow flex flex-row">
         <LeftSideBar />
