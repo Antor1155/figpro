@@ -83,7 +83,7 @@ export const createSpecificShape = (
       return createLine(pointer);
 
     case "text":
-      return createText(pointer, "Tap to Type");
+      return createText(pointer, "Click & Type");
 
     default:
       return null;
