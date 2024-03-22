@@ -9,7 +9,7 @@ import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
 import { useEffect, useRef, useState } from "react";
 import { ActiveElement, CustomFabricObject } from "@/types/type";
-import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvaseMouseMove, handleResize, initializeFabric } from "@/lib/canvas";
+import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvaseMouseMove, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
 import { useMutation, useStorage } from "@/liveblocks.config";
 
 export default function Page() {
@@ -83,11 +83,27 @@ export default function Page() {
       })
     })
 
+    canvas.on("object:modified", (options) => {
+      handleCanvasObjectModified({
+        options,
+        syncShapeInStorage
+      })
+    })
+
     window.addEventListener("resize", () => {
       handleResize({ fabricRef })
     })
 
   }, [])
+
+  useEffect(() => {
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      activeObjectRef
+    })
+
+  },[canvasObjects])
 
   return (
     <main className="h-screen border-red-200 flex flex-col overflow-hidden">
