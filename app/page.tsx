@@ -10,11 +10,14 @@ import RightSideBar from "@/components/RightSideBar";
 import { useEffect, useRef, useState } from "react";
 import { ActiveElement, CustomFabricObject } from "@/types/type";
 import { handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvaseMouseMove, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
-import { useMutation, useStorage } from "@/liveblocks.config";
+import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { defaultNavElement } from "@/constants";
-import { handleDelete } from "@/lib/key-events";
+import { handleDelete, handleKeyDown } from "@/lib/key-events";
 
 export default function Page() {
+  const undo = useUndo()
+  const redo = useRedo()
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fabricRef = useRef<fabric.Canvas | null>(null)
   const isDrawing = useRef(false)
@@ -44,12 +47,12 @@ export default function Page() {
 
   }, [])
 
-  const deleteAllShapes = useMutation(({storage}) => {
+  const deleteAllShapes = useMutation(({ storage }) => {
     const canvasObjects = storage.get("canvasObjects")
 
-    if(!canvasObjects || canvasObjects.size === 0) return true
+    if (!canvasObjects || canvasObjects.size === 0) return true
 
-    for(const [key, value] of canvasObjects.entries()) {
+    for (const [key, value] of canvasObjects.entries()) {
       canvasObjects.delete(key)
     }
 
@@ -57,11 +60,11 @@ export default function Page() {
 
   }, [])
 
-  const deleteShapeFromStorage = useMutation(({storage}, objectId) => {
+  const deleteShapeFromStorage = useMutation(({ storage }, objectId) => {
     const canvasObjects = storage.get("canvasObjects")
 
     canvasObjects.delete(objectId)
-  },[])
+  }, [])
 
   const handleActiveElement = (elem: ActiveElement) => {
     setActiveElement(elem)
@@ -73,7 +76,7 @@ export default function Page() {
         fabricRef.current?.clear()
         setActiveElement(defaultNavElement)
         break
-      
+
       case "delete":
         handleDelete(fabricRef.current as any, deleteShapeFromStorage)
         setActiveElement(defaultNavElement)
@@ -131,6 +134,18 @@ export default function Page() {
       handleResize({ fabricRef })
     })
 
+    window.addEventListener("keydown", (e) => {
+      handleKeyDown({
+        e,
+        canvas: fabricRef.current,
+        undo,
+        redo,
+        syncShapeInStorage,
+        deleteShapeFromStorage,
+      })
+
+    })
+
     return () => {
       canvas.dispose()
     }
@@ -154,7 +169,7 @@ export default function Page() {
       />
 
       <section className="flex-grow flex flex-row">
-        <LeftSideBar allShapes={Array.from(canvasObjects)}/>
+        <LeftSideBar allShapes={Array.from(canvasObjects)} />
         <Live canvasRef={canvasRef} />
         <RightSideBar />
       </section>
