@@ -141,7 +141,7 @@ export default function Live({ canvasRef }: Props) {
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
 
-            className=" w-full flex justify-center items-center border-2 border-green-200"
+            className="relative h-full w-full flex flex-1 justify-center items-center"
         >
             <canvas ref={canvasRef} />
 
