@@ -50,10 +50,10 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
    *
    * useUser: https://liveblocks.io/docs/api-reference/liveblocks-react#useUser
    */
-  const { isLoading } = useUser(thread.comments[0].userId);
+  // const { isLoading } = useUser(thread?.comments[0]?.userId);
 
   // We're using a ref to get the thread element to position it
-  const threadRef = useRef<HTMLDivElement>(null);
+  const threadRef = useRef<HTMLDivElement>(null); 
 
   // If other thread(s) above, increase z-index on last element updated
   const handleIncreaseZIndex = useCallback(() => {
@@ -70,9 +70,9 @@ const OverlayThread = ({ thread, maxZIndex }: OverlayThreadProps) => {
     });
   }, [thread, editThreadMetadata, maxZIndex]);
 
-  if (isLoading) {
-    return null;
-  }
+  // if (isLoading) {
+  //   return "loading";
+  // }
 
   return (
     <div
