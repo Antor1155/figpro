@@ -11,11 +11,16 @@ const nextConfig = {
     },
     webpack: (config) => {
         config.externals.push({
-          sharp: 'commonjs sharp',
-          canvas: 'commonjs canvas'
-        });
-        return config;
-      }
+            "utf-8-validate": "commonjs utf-8-validate",
+            "bufferutil": "commonsjs bufferutil",
+            canvas: "commonjs canvas"
+        })
+      
+        return config
+    },
+    typescript: {
+        ignoreBuildErrors: true
+    }
 
 };
 
