@@ -7,3 +7,5 @@
 ## liveblocks as websocket and colleborative sdk,
 ## shadcn.ui an UI library.
 ## jsPDF to convert canvas to pdf.
+
+mouse right click and keyboard shortcuts to access Reacts, Chat, undo, redo
