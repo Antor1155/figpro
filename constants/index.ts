@@ -196,4 +196,9 @@ export const shortcuts = [
     name: "Reactions",
     shortcut: "E",
   },
+  {
+    key: "5",
+    name: "Close Reactions / Chat",
+    shortcut: "Esc",
+  }
 ];

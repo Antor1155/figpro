@@ -168,6 +168,10 @@ export default function Live({ canvasRef, undo, redo }: Props) {
                 })
                 break
 
+            case "Close Reactions / Chat":
+                updateMyPresence({ message: "" })
+                setCursorState({ mode: CursorMode.Hidden })
+                break
             default:
                 break
 
