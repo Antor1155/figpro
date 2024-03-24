@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Room } from "./Room";
+import { Analytics } from '@vercel/analytics/react';
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Room>
           {children}
         </Room>
+        <Analytics />
       </body>
     </html>
   );
