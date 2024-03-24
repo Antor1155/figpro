@@ -13,6 +13,7 @@ import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { defaultNavElement } from "@/constants";
 import { handleDelete, handleKeyDown } from "@/lib/key-events";
 import { handleImageUpload } from "@/lib/shapes";
+import Image from "next/image";
 
 export default function Page() {
     const undo = useUndo()
@@ -253,7 +254,17 @@ export default function Page() {
                 />
 
             </section>
-
+            
+            <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center gap-5 text-white border-2 rounded-full p-2 z-10">
+                <Image 
+                    src="./assets/rightclick.svg" 
+                    width={30}
+                    height={30}
+                    alt="right click instruction" 
+                
+                />
+                <p>Mouse Right Click - see shortcuts</p>
+            </section>
         </main>
 
     );
