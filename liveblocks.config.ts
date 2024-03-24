@@ -80,11 +80,13 @@ type RoomEvent = ReactionEvent;
 
 // Optionally, when using Comments, ThreadMetadata represents metadata on
 // each thread. Can only contain booleans, strings, and numbers.
-export type ThreadMetadata = {
-  // resolved: boolean;
-  // quote: string;
-  // time: number;
-};
+// export type ThreadMetadata = {
+//   // resolved: boolean;
+//   // quote: string;
+//   // time: number;
+// };
+
+export type ThreadMetadata = any
 
 // Room-level hooks, use inside `RoomProvider`
 export const {
