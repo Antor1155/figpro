@@ -3,7 +3,6 @@
 import { fabric } from "fabric";
 
 import Live from "@/components/Live";
-import { Room } from "./Room";
 import Navbar from "@/components/Navbar";
 import LeftSideBar from "@/components/LeftSideBar";
 import RightSideBar from "@/components/RightSideBar";
