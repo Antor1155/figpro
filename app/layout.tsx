@@ -11,7 +11,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Antor project of figma clone",
+  title: "Antor project of simplified collab app",
   description: "Personal project of Antor: figma clone-figPro : using fabric.js and liveblocks",
 };
 

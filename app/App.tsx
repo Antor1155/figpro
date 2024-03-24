@@ -255,7 +255,7 @@ export default function Page() {
 
             </section>
             
-            <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center gap-5 text-white border-2 rounded-full p-2 z-10">
+            <section className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center gap-5 text-white border-2 rounded-full p-2 z-10 pointer-events-none">
                 <Image 
                     src="./assets/rightclick.svg" 
                     width={30}
