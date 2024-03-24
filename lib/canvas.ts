@@ -211,6 +211,7 @@ export const handleCanvasObjectModified = ({
     // fix this
   } else {
     syncShapeInStorage(target);
+    // console.log("canvas modified while changing shape and syincing : ", target)
   }
 };
 

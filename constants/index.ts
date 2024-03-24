@@ -21,11 +21,11 @@ export const shapeElements = [
     name: "Line",
     value: "line",
   },
-  {
-    icon: "/assets/image.svg",
-    name: "Image",
-    value: "image",
-  },
+  // {
+  //   icon: "/assets/image.svg",
+  //   name: "Image",
+  //   value: "image",
+  // },
   {
     icon: "/assets/freeform.svg",
     name: "Free Drawing",
